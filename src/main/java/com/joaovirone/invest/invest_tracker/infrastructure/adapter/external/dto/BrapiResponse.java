@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
+@Data
 public class BrapiResponse {
     
 
     @JsonProperty("results")
     private List<BrapiResult> results;
-
-
+    
     @Data
     public static class BrapiResult {
 

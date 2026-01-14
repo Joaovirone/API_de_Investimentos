@@ -1,8 +1,8 @@
-# 📈 InvestTracker API - Gerenciador de Rentabilidade de Ativos
+#  InvestTracker API - Gerenciador de Rentabilidade de Ativos
 
 API RESTful robusta desenvolvida para monitoramento de investimentos em tempo real. O projeto foca em **Integração de Sistemas**, **Arquitetura Limpa (DDD)** e **Performance (Cache)**. O diferencial deste sistema é a implementação do padrão **Anti-Corruption Layer (ACL)**, protegendo o núcleo do domínio contra mudanças nas APIs externas de cotação.
 
-## 📋 Índice
+##  Índice
 
 1. [Visão Geral e Arquitetura](#-visão-geral-e-arquitetura)
 2. [Tecnologias Utilizadas](#-tecnologias-utilizadas)
@@ -14,7 +14,7 @@ API RESTful robusta desenvolvida para monitoramento de investimentos em tempo re
 
 ---
 
-## 🏛️ Visão Geral e Arquitetura
+##  Visão Geral e Arquitetura
 
 O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DDD)** para garantir o desacoplamento:
 
@@ -36,7 +36,7 @@ O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DD
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 * **Linguagem:** Java 21 (LTS)
 * **Framework:** Spring Boot 3.x
@@ -49,7 +49,7 @@ O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DD
 
 ---
 
-## 🔑 Configuração do Token (Brapi)
+##  Configuração do Token (Brapi)
 
 Este projeto consome dados reais da B3 através da API [Brapi.dev](https://brapi.dev). Para que a consulta funcione, você precisa de um token de acesso (gratuito).
 
@@ -68,7 +68,7 @@ Este projeto consome dados reais da B3 através da API [Brapi.dev](https://brapi
 
 ---
 
-## 🐳 Instalação e Execução (Passo a Passo)
+##  Instalação e Execução (Passo a Passo)
 
 A aplicação é **Dockerizada**. Isso significa que você não precisa instalar Java ou Redis na sua máquina, apenas o Docker.
 
@@ -106,15 +106,15 @@ A aplicação é **Dockerizada**. Isso significa que você não precisa instalar
 
 ---
 
-## 📚 Documentação Interativa (Swagger)
+##  Documentação Interativa (Swagger)
 
 Com a aplicação rodando, você pode testar todos os endpoints e ver os esquemas de dados visualmente.
 
-👉 **Acesse:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+ **Acesse:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 ---
 
-## 🧪 Guia de Uso (Exemplos Práticos)
+##  Guia de Uso (Exemplos Práticos)
 
 ### Cenário 1: Consultar Lucro (Profit)
 

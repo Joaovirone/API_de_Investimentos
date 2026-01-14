@@ -17,7 +17,7 @@ public class BrapiAdapter implements QuoteProvider {
     private final WebClient webClient;
     
     // Pegue seu token gratuito em https://brapi.dev/dashboard e coloque aqui ou no application.properties
-    private final String TOKEN = "etVtCMN1grJQcgk4dkesvB"; 
+    private final String TOKEN = "digite_seu_token_Aqui_:D_!"; 
 
     @Override
     public BigDecimal getPrice(String ticker) {

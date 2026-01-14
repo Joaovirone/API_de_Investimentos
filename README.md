@@ -1,15 +1,16 @@
 # 📈 InvestTracker API - Gerenciador de Rentabilidade de Ativos
 
-API RESTful robusta desenvolvida para monitoramento de investimentos em tempo real. O projeto foca em **Integração de Sistemas**, **Arquitetura Limpa (DDD)** e **Performance (Cache)**. O diferencial deste sistema é a implementação do padrão **Anti-Corruption Layer (ACL)**, protegendo o núcleo do domínio contra mudanças nas APIs externas de cotação (Brapi/B3).
+API RESTful robusta desenvolvida para monitoramento de investimentos em tempo real. O projeto foca em **Integração de Sistemas**, **Arquitetura Limpa (DDD)** e **Performance (Cache)**. O diferencial deste sistema é a implementação do padrão **Anti-Corruption Layer (ACL)**, protegendo o núcleo do domínio contra mudanças nas APIs externas de cotação.
 
 ## 📋 Índice
 
 1. [Visão Geral e Arquitetura](#-visão-geral-e-arquitetura)
 2. [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-3. [Instalação e Execução (Docker)](#-instalação-e-execução-passo-a-passo)
-4. [Documentação da API (Swagger)](#-documentação-interativa-swagger)
-5. [Guia de Uso (Exemplos Práticos)](#-guia-de-uso-exemplos-práticos)
-6. [Estrutura de Dados e Cache](#-estrutura-de-dados-e-cache)
+3. [Configuração do Token (Brapi)](#-configuração-do-token-brapi)
+4. [Instalação e Execução (Docker)](#-instalação-e-execução-passo-a-passo)
+5. [Documentação da API (Swagger)](#-documentação-interativa-swagger)
+6. [Guia de Uso (Exemplos Práticos)](#-guia-de-uso-exemplos-práticos)
+7. [Estrutura de Dados e Cache](#-estrutura-de-dados-e-cache)
 
 ---
 
@@ -17,8 +18,8 @@ API RESTful robusta desenvolvida para monitoramento de investimentos em tempo re
 
 O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DDD)** para garantir o desacoplamento:
 
-* **Interfaces (Controller):** Ponto de entrada REST. Recebe parâmetros (Ticker, Quantidade, Preço), cria o DTO e chama o Caso de Uso.
-* **Application:** Orquestra o fluxo. Não contém regras de negócio complexas, apenas delega.
+* **Interfaces (Controller):** Ponto de entrada REST. Recebe parâmetros (Ticker, Quantidade, Preço), valida e repassa.
+* **Application:** Camada de orquestração.
 * **Domain (Core):** Coração da regra de negócio.
     * *Service:* Calcula PnL (Lucro/Prejuízo) e ROI.
     * *Model:* Entidades puras (`Asset`, `Position`).
@@ -29,10 +30,9 @@ O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DD
 
 ### Regras de Negócio e Patterns
 
-* **Isolamento (ACL):** O domínio nunca toca na API externa diretamente. Um *Adapter* converte o JSON "sujo" da API externa para o objeto de domínio limpo.
+* **Isolamento (ACL):** O domínio nunca toca na API externa diretamente. Um *Adapter* converte o JSON da API externa para o objeto de domínio.
 * **Performance (Caching):** Para evitar *Rate Limiting* e latência, as cotações são salvas no Redis com TTL (Time-to-Live). Se a cotação já existe no cache, a API não chama a B3.
-* **Matemática Financeira:** Uso estrito de `BigDecimal` para evitar erros de arredondamento em cálculos monetários.
-* **Resiliência:** Preparado para lidar com falhas na API terceira (Design pattern Circuit Breaker ready).
+* **Matemática Financeira:** Uso estrito de `BigDecimal` para evitar erros de arredondamento.
 
 ---
 
@@ -46,6 +46,25 @@ O sistema é dividido em camadas estritas baseadas no **Domain-Driven Design (DD
 * **Documentação:** SpringDoc OpenAPI (Swagger UI)
 * **Build Tool:** Gradle (Groovy DSL)
 * **Ferramentas:** Lombok.
+
+---
+
+## 🔑 Configuração do Token (Brapi)
+
+Este projeto consome dados reais da B3 através da API [Brapi.dev](https://brapi.dev). Para que a consulta funcione, você precisa de um token de acesso (gratuito).
+
+1.  **Obtenha o Token:**
+    * Acesse [https://brapi.dev/dashboard](https://brapi.dev/dashboard).
+    * Crie uma conta gratuita.
+    * Copie seu **Access Token**.
+
+2.  **Configure no Projeto:**
+    * Abra o arquivo: `src/main/java/.../infrastructure/adapter/external/BrapiAdapter.java`
+    * Insira o token na variável:
+        ```java
+        private final String TOKEN = "digite_seu_token_Aqui_:D_!";
+        ```
+    * *(Opcional)*: Para produção, recomenda-se configurar via Variável de Ambiente.
 
 ---
 
@@ -93,13 +112,9 @@ Com a aplicação rodando, você pode testar todos os endpoints e ver os esquema
 
 👉 **Acesse:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-> **Nota:** Diferente da Fintech API, esta API é pública e focada em consulta, portanto não exige autenticação via Token para os testes iniciais.
-
 ---
 
 ## 🧪 Guia de Uso (Exemplos Práticos)
-
-Aqui estão os cenários para validar o funcionamento do sistema e a integração.
 
 ### Cenário 1: Consultar Lucro (Profit)
 
